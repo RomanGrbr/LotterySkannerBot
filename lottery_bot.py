@@ -1,20 +1,27 @@
-# from pyrogram import Client
-from telethon import TelegramClient, events
+import re
+from telethon.sync import TelegramClient, events, utils
+from config import (API_HASH, API_ID, SESSION_STRING, TARGET_CHANNEL)
 
-API_ID = 7554243
-API_HASH = "9c2dd8b31f65db8ff63abe5b73d879de"
-LOTTERY_SKANNER_GROUP_ID = -1001141596012
-LOTTERY_SKANNER_GROUP = 'LotterySkanner'
-METROPOLIS_ID = -1001539175416
-metropolis = 'metropolisru'
-client = TelegramClient('anon', API_ID, API_HASH)
-brief = -1001100073584
+client = TelegramClient(SESSION_STRING, API_ID, API_HASH)
 
+lotteryskanner = -1001569559960
+brief = -1001099350027
+vesti24 = -1001001872252
+nezigar = -1001096463945
 
-@client.on(events.NewMessage(chats=('brief', 'vestiru24')))
-async def my_event_handler(event):
-    if 'розыгрыш' in event.raw_text.lower():
-        await client.forward_messages(LOTTERY_SKANNER_GROUP_ID, event.message)
+@client.on(events.NewMessage(chats=[lotteryskanner, brief, vesti24, nezigar]))
+async def handler_new_message(event):
+    try:
+        if re.findall(r'розыгры', event.raw_text.lower()):
+            await client.forward_messages(int(TARGET_CHANNEL), event.message)
+        elif event:
+            chat_from = event.chat if event.chat else (await event.get_chat())
+            chat_title = utils.get_display_name(chat_from)
+            chat = f'Название **{chat_title}**, id: **{event.chat_id}**'
+            await client.send_message(int(TARGET_CHANNEL), chat)
+    except Exception as e:
+        print(e)
 
-client.start()
-client.run_until_disconnected()
+if __name__ == '__main__':
+    client.start()
+    client.run_until_disconnected()
