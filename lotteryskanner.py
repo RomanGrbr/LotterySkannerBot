@@ -14,13 +14,14 @@ async def handler_new_message(event):
     try:
         if re.findall(r'розыгры', event.raw_text.lower()):
             await client.forward_messages(int(TARGET_CHANNEL), event.message)
-        elif event:
-            chat_from = event.chat if event.chat else (await event.get_chat())
-            chat_title = utils.get_display_name(chat_from)
-            chat = f'Название **{chat_title}**, id: **{event.chat_id}**'
-            await client.send_message(int(TARGET_CHANNEL), chat)
+        # elif event:
+        #     chat_from = event.chat if event.chat else (await event.get_chat())
+        #     chat_title = utils.get_display_name(chat_from)
+        #     chat = f'Название **{chat_title}**, id: **{event.chat_id}**'
+        #     await client.send_message(int(TARGET_CHANNEL), chat)
     except Exception as e:
         print(e)
+
 
 if __name__ == '__main__':
     client.start()
