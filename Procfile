@@ -1,1 +1,1 @@
-bot: python lotteryskanner.py
+worker: python lotteryskanner.py
