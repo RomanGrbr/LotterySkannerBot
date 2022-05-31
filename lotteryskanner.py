@@ -19,8 +19,10 @@ async def get_dialog():
 @client.on(events.NewMessage(chats=my_channel))
 async def handler_new_message(event):
     try:
-        if re.findall(r'розыгры', event.raw_text.lower()) or (
-            re.findall(r'конкурс', event.raw_text.lower())):
+        if re.findall(r'розыгр', event.raw_text.lower()) or (
+            re.findall(r'конкурс', event.raw_text.lower())) or (
+            re.findall(r'дарим', event.raw_text.lower())) or (
+            re.findall(r'выиграть', event.raw_text.lower())):
             await client.forward_messages(int(TARGET_CHANNEL), event.message)
     except Exception as e:
         print(e)
@@ -31,14 +33,6 @@ async def handler_commads(event):
         if event.raw_text == '/update':
             await get_dialog()
             await client.send_message(int(TARGET_CHANNEL), f'my_channel update {str(my_channel)}')
-    except Exception as e:
-        print(e)
-
-@client.on(events.NewMessage(chats=my_channel))
-async def handler_new(event):
-    try:
-        if event:
-            await client.forward_messages(int(TARGET_CHANNEL), event.message)
     except Exception as e:
         print(e)
 
