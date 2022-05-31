@@ -22,7 +22,8 @@ async def handler_new_message(event):
         if re.findall(r'розыгр', event.raw_text.lower()) or (
             re.findall(r'конкурс', event.raw_text.lower())) or (
             re.findall(r'дарим', event.raw_text.lower())) or (
-            re.findall(r'выиграть', event.raw_text.lower())):
+            re.findall(r'выиграть', event.raw_text.lower())) or (
+                re.findall(r'разыгр', event.raw_text.lower())):
             await client.forward_messages(int(TARGET_CHANNEL), event.message)
     except Exception as e:
         print(e)
