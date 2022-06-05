@@ -21,7 +21,8 @@ async def handler_new_message(event):
     try:
         if re.findall(r'розыгр', event.raw_text.lower()) or (
             re.findall(r'конкурс', event.raw_text.lower())) or (
-            re.findall(r'дарим', event.raw_text.lower())) or (
+            'дарим' == event.raw_text.lower()) or (
+                'подарим' == event.raw_text.lower()) or (
             re.findall(r'выиграть', event.raw_text.lower())) or (
                 re.findall(r'разыгр', event.raw_text.lower())):
             await client.forward_messages(int(TARGET_CHANNEL), event.message)
