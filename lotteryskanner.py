@@ -4,10 +4,12 @@ from telethon.sync import TelegramClient, events
 
 from config import API_HASH, API_ID, SESSION_STRING, TARGET_CHANNEL
 
+
 client = TelegramClient(SESSION_STRING, API_ID, API_HASH)
 client.connect()
 
 my_channel = set()
+
 
 async def get_dialog():
     async for dialog in client.iter_dialogs():
@@ -29,12 +31,14 @@ async def handler_new_message(event):
     except Exception as e:
         print(e)
 
+
 @client.on(events.NewMessage(chats=int(TARGET_CHANNEL)))
 async def handler_commads(event):
     try:
         if event.raw_text == '/update':
             await get_dialog()
-            await client.send_message(int(TARGET_CHANNEL), f'my_channel update {str(my_channel)}')
+            await client.send_message(
+                int(TARGET_CHANNEL), f'my_channel update {str(my_channel)}')
     except Exception as e:
         print(e)
 

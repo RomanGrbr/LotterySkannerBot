@@ -10,4 +10,5 @@
 Установить зависимости
 pip install requirements.txt
 
-Pапустить скрипт lotteryskanner.py
+Запустить скрипт lotteryskanner.py
+Ввести номер телефона и полученный код
